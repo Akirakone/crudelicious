@@ -1,0 +1,29 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<body>
+    <div>
+        <h1 style="background-color:#05588b;" class="text-white">Welcome to CRUDelicious!
+            <a href="AddForm" style="color: white;" class="btn btn-primary">Add Dish</a>
+        </h1>
+    </div>
+    <div class="table-responsive">
+       <h2>Recent Dishes</h2>
+        <table class="text-center">
+            @foreach (var d in ViewBag.AllDishes)
+                {
+                    <tr>
+                        <td><a href="/showdish/@d.dishid">@d.name</a> by @d.chef</td>
+                    </tr>
+                }
+
+            
+        </table>
+    </div>
+</body>
+
+</html>
