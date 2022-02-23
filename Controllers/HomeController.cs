@@ -31,11 +31,16 @@ namespace crudelicious.Controllers
             return View("index");
         }
 
-         [HttpGet("ShowDish/{dId}")]
+        [HttpGet("/ShowDish/{dId}")]
         public IActionResult oneDish(int dId)
         {
             Dish one = _context.Dishes.FirstOrDefault(d => d.dishid == dId);
-            return View("showdish");
+            if (one == null)
+            {
+                return RedirectToAction("index");
+            }
+            
+            return View("showdish",one);
         
         }
         [HttpGet("Addform")]
@@ -60,14 +65,14 @@ namespace crudelicious.Controllers
         }
 
         
-          [HttpGet("editDish/{dId}")]
+        [HttpGet("/editDish/{dId}")]
         public IActionResult Edit(int dId)
         {
             Dish edit = _context.Dishes.FirstOrDefault(d => d.dishid == dId);
-            return View("updatedish");
+            return View("updatedish", edit);
         }
 
-            [HttpPost("updatedish/{dId}")]
+        [HttpPost("/updatedish/{dId}")]
         public IActionResult Update(int dId,Dish edited )
         {
             edited.dishid =  dId;
@@ -83,14 +88,14 @@ namespace crudelicious.Controllers
                 original.UpdatedAt = DateTime.Now;
 
                 _context.SaveChanges();
-                return View("showdish",original);
+                return RedirectToAction("showdish");
             } else{
                 return View("updatedish", edited);
             } 
 
 
         }
-            [HttpGet("delete/{dId}")]
+        [HttpGet("delete/{dId}")]
         public IActionResult DeleteDish(int dId)
         {
             Dish toDelete = _context.Dishes.SingleOrDefault(d => d.dishid == dId);
